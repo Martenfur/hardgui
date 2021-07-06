@@ -1,0 +1,14 @@
+///gui_createInputStr(x,y,w,slider_h,slider_v,form)
+
+var new;
+new=instance_create(argument0,argument1,gui_input_str)
+new.startx=   argument0
+new.starty=   argument1
+new.w=        argument2
+new.mysliderH=argument3
+new.mysliderV=argument4
+if argument5=noone
+{new.myform=  gui_cntrl}
+else
+{new.myform=  argument5}
+return new

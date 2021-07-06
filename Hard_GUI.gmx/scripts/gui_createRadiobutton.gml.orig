@@ -1,0 +1,17 @@
+///gui_createRadiobutton(x,y,slider_h,slider_v,form)
+/*
+!!!x and y are counting from center!!!
+
+Add this code after the function to create button with icon on it instead of text.
+*/
+
+
+var new;
+new=instance_create(argument0,argument1,gui_radiobutton)
+new.mysliderH=argument2
+new.mysliderV=argument3
+if argument4=noone
+{new.myform=  gui_cntrl}
+else
+{new.myform=  argument4}
+return new

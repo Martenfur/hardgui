@@ -1,0 +1,66 @@
+///gui_windowDraw()
+
+/*
+Draws window. 
+*/
+
+//HEADER
+draw_sprite_stretched_ext(s_pixel,0,headerX-1,headerY,w+2,h*active+HEADER_H+1,C_DARK,1)//border
+
+draw_set_color (C_BRIGHT)
+draw_set_font  (font)
+draw_set_halign(fa_left)
+draw_set_valign(fa_center)
+draw_text(
+          floor(headerX+((w-HEADER_H*2*(bHideEn || bCloseEn))-string_width(headerStr))*headerStrAlign/2-(HEADER_H-string_height(headerStr))/2*(headerStrAlign-1)),
+          floor(headerY+HEADER_H/2),headerStr)
+//HEADER
+         
+//BUTTONS
+if bHideEn || bCloseEn
+{
+  var cdr;
+  
+  //hide
+  if bHideEn
+  {
+    if bHideHighlight
+    {
+      cdr=C_DARK //pressed
+      draw_sprite_stretched_ext(s_pixel,0,headerX+w-HEADER_H*2,headerY,HEADER_H,HEADER_H,C_BRIGHT,1)
+      bHideHighlight=0
+    }
+    else
+    {cdr=C_BRIGHT} //released
+  }
+  else
+  {cdr=C_MEDIUM} //inactive
+  draw_sprite_ext(s_gui_hide,0, headerX+w-HEADER_H*2,headerY,1,1,0,cdr,1)
+  //hide
+
+  //close
+  if bCloseEn
+  {
+    if bCloseHighlight
+    {
+      cdr=C_DARK //pressed
+      draw_sprite_stretched_ext(s_pixel,0,headerX+w-HEADER_H,headerY,HEADER_H,HEADER_H,C_BRIGHT,1)
+      bCloseHighlight=0
+    }
+    else
+    {cdr=C_BRIGHT} //released
+  }
+  else
+  {cdr=C_MEDIUM} //inactive
+  draw_sprite_ext(s_gui_cross,0,headerX+w-HEADER_H,  headerY,1,1,0,cdr,1)
+  //close
+}
+//BUTTONS
+
+if active
+{
+  if !surface_exists(surf)
+  {surf=surface_create(w,h)}
+  draw_surface(surf,x,y)
+}
+

@@ -1,0 +1,3 @@
+///scissorsReset()
+
+shader_reset()

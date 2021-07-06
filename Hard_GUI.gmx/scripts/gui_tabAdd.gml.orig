@@ -1,0 +1,9 @@
+///gui_tabAdd(tab,tab_name,form)
+
+var newtab=ds_list_create();
+
+ds_list_add(newtab,argument1) //Name.
+ds_list_add(newtab,max(ARROW_MEDIUM_SIZE*4,string_width(argument1)+GUI_INDENT*2)) //Name length.
+ds_list_add(newtab,argument2) //Form.
+argument2.mytab=argument0
+ds_list_add(argument0.tabs,newtab)

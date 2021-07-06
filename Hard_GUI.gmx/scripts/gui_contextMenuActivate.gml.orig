@@ -1,0 +1,31 @@
+///gui_contextMenuActivate(index)
+
+with(gui_cntrl)
+{
+  contextMenuActiveId=argument0
+  
+  //Width & height calculating.
+  var c_size=ds_list_size(contextMenuActiveId);
+  contextMenu_w=contextMenu_wmin
+  contextMenu_h=ARROW_MEDIUM_SIZE*c_size
+  
+  for(var c_i=0; c_i<c_size c_i+=1)
+  {
+    if string_width(contextMenuActiveId[|c_i])>contextMenu_w
+    {contextMenu_w=string_width(contextMenuActiveId[|c_i])+GUI_INDENT*2}
+  }
+  //Width & height calculating.
+    
+  //Placing menu.
+  if mouse_x+contextMenu_w>w
+  {contextMenu_x=max(0,mouse_x-contextMenu_w)}
+  else
+  {contextMenu_x=mouse_x}
+    
+  if mouse_y+contextMenu_h>h
+  {contextMenu_y=max(0,mouse_y-contextMenu_h)}
+  else
+  {contextMenu_y=mouse_y}
+  //Placing menu.     
+
+}

@@ -1,0 +1,71 @@
+///_gui_input_cursor_mouse(isnum)
+
+var isnum=argument0;
+
+if mbCheck
+{
+  //CURSOR MOVE
+  if (w-ARROW_TINY_SIZE*isnum)-(mouseFormX-x)<dragBorder
+  { 
+    //Dragging right.   
+    curPos+=1
+    if curPos>string_length(str)
+    {curPos=string_length(str)} 
+    //Dragging right.
+  }
+  else
+  {
+    if (mouseFormX-x)<dragBorder
+    {   
+      //Dragging left.
+      curPos-=1
+      if curPos<0
+      {curPos=0}
+      //Dragging left. 
+    }
+    else
+    {
+      //Dragging.
+      if point_in_rectangle(mouseFormX,mouseFormY,x,y,x+w-ARROW_TINY_SIZE*isnum,y+h)
+      {
+        var x1Ch,x2Ch;
+        x1Ch=textXadd
+        x2Ch=textXadd
+        curPos=string_length(str)+1
+        for(var i=0; i<string_length(str) i+=1)
+        {
+          x2Ch+=string_width(string_char_at(str,i+1))
+          if point_in_rectangle(mouseFormX,mouseFormY,
+                                x+x1Ch,y,
+                                x+x2Ch,y+h)
+          {
+            if x+x1Ch+(x2Ch-x1Ch)/2>mouseFormX
+            {curPos=i}
+            else
+            {curPos=i+1}
+            curDraw=1
+            curDrawAl=15
+            break
+          }
+          x1Ch=x2Ch
+        }
+      }
+      //Dragging.
+    }
+  }
+  //CURSOR MOVE
+}
+
+if mbCheckPress
+{
+  //SELECTING
+  if point_in_rectangle(mouseFormX,mouseFormY,x,y,x+w,y+h) 
+  {
+    active=1
+    keyboard_lastkey=-1
+    keyboard_lastchar=''
+  }
+  else
+  {active=0}
+  //SELECING
+}

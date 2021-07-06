@@ -1,0 +1,135 @@
+///_gui_sliderUpdate(mouse_x,mouse_y,x_arg,y_arg,w_arg,h_arg)
+
+mouseFormX_arg=argument0
+mouseFormY_arg=argument1
+x_arg=         argument2
+y_arg=         argument3
+w_arg=         argument4
+h_arg=         argument5
+
+b1Check=0
+b2Check=0
+
+//Preventing from dividing by 0.
+if contentL<=-h_arg
+{sliderButtonL=h_arg-ARROW_MEDIUM_SIZE*2}
+else
+{sliderButtonL=max(ARROW_MEDIUM_SIZE/2,(h_arg-ARROW_MEDIUM_SIZE*2)*min(h_arg/(contentL+h_arg),1))}
+//Preventing from dividing by 0.
+
+//SLIDER GRAB
+if mbCheckPress
+{
+  if point_in_rectangle(mouseFormX_arg,mouseFormY_arg,x_arg,      y_arg+ARROW_MEDIUM_SIZE,
+                                                      x_arg+w_arg,y_arg+h_arg-ARROW_MEDIUM_SIZE)
+  {
+    //Mouse on the slider button.
+    if point_in_rectangle(mouseFormX_arg,mouseFormY_arg,x_arg,      y_arg+sliderButtonPos+ARROW_MEDIUM_SIZE,
+                                                        x_arg+w_arg,y_arg+sliderButtonPos+sliderButtonL+ARROW_MEDIUM_SIZE)
+    {sliderButtonDragDL=(mouseFormY_arg-y_arg-sliderButtonPos-ARROW_MEDIUM_SIZE)}
+    //Mouse on the slider button.
+    else
+    {//Mouse on the rest of slider.
+      sliderButtonPos=mouseFormY_arg-(y_arg+ARROW_MEDIUM_SIZE+sliderButtonL/2)
+      if sliderButtonPos<0
+      {sliderButtonPos=0}
+      if sliderButtonPos>h_arg-ARROW_MEDIUM_SIZE*2-sliderButtonL
+      {sliderButtonPos=h_arg-ARROW_MEDIUM_SIZE*2-sliderButtonL}
+      sliderButtonDragDL=(mouseFormY_arg-y_arg-sliderButtonPos-ARROW_MEDIUM_SIZE)
+    }//Mouse on the rest of slider.
+    sliderButtonDrag=1
+    mbCheckPress=    0
+  }
+  else
+  {sliderButtonDrag=0}
+}
+//SLIDER GRAB
+
+//SLIDER DRAG
+if sliderButtonDrag
+{
+  sliderButtonPos=mouseFormY_arg-(y_arg+ARROW_MEDIUM_SIZE+sliderButtonDragDL)
+  if sliderButtonPos<0
+  {sliderButtonPos=0}
+  if sliderButtonPos>h_arg-ARROW_MEDIUM_SIZE*2-sliderButtonL
+  {sliderButtonPos=h_arg-ARROW_MEDIUM_SIZE*2-sliderButtonL}
+}
+else
+{
+  if mbCheck
+  {
+    //ARROWS
+  
+    var bSpdRes;
+    if portionSlide
+    {bSpdRes=subcontentL}
+    else
+    {bSpdRes=bSpd}
+  
+    //up
+    if point_in_rectangle(mouseFormX_arg,mouseFormY_arg,x_arg,                  y_arg,
+                                                        x_arg+ARROW_MEDIUM_SIZE,y_arg+ARROW_MEDIUM_SIZE)
+    {
+      sliderButtonPos-=(bSpdRes/contentL)*(h_arg-sliderButtonL-ARROW_MEDIUM_SIZE*2)
+      b1Check=1
+    }
+    //up
+  
+    //down
+    if point_in_rectangle(mouseFormX_arg,mouseFormY_arg,x_arg,                  y_arg+h_arg-ARROW_MEDIUM_SIZE,
+                                                        x_arg+ARROW_MEDIUM_SIZE,y_arg+h_arg)
+    {
+      sliderButtonPos+=(bSpdRes/contentL)*(h_arg-sliderButtonL-ARROW_MEDIUM_SIZE*2)
+      b2Check=1
+    }
+    //down
+    
+    //ARROWS 
+  }
+}
+
+if mbCheckReleaseGlobal
+{sliderButtonDrag=0}
+//SLIDER DRAG
+
+//WHEEL SCROLLING
+if wheelScroll && !sliderButtonDrag
+&& !b1Check && !b2Check 
+&& point_in_rectangle(mouseFormX_arg,mouseFormY_arg,wheelX1,wheelY1,wheelX2,wheelY2)
+&& myform.clickable=1
+{
+  var bSpdRes;
+  if portionSlide
+  {bSpdRes=subcontentL}
+  else
+  {bSpdRes=wheelSpd}
+  sliderButtonPos+=(bSpdRes/contentL)*(h_arg-sliderButtonL-ARROW_MEDIUM_SIZE*2)*(mouse_wheel_down()-mouse_wheel_up())
+}
+//WHEEL SCROLLING
+
+//LIMITING SCROLLER
+if sliderButtonPos<0
+{sliderButtonPos=0}
+if sliderButtonPos>h_arg-ARROW_MEDIUM_SIZE*2-sliderButtonL
+{sliderButtonPos=h_arg-ARROW_MEDIUM_SIZE*2-sliderButtonL}
+//LIMITING SCROLLER
+
+//PORTION SLIDE
+if portionSlide && sliderButtonPos!=h_arg-ARROW_MEDIUM_SIZE*2-sliderButtonL
+{
+  var portionL=(subcontentL/contentL)*(h_arg-sliderButtonL-ARROW_MEDIUM_SIZE*2)
+  sliderButtonPos=round(sliderButtonPos/portionL)*portionL
+}
+//PORTION SLIDE
+
+//CONVERSION
+if h_arg-ARROW_MEDIUM_SIZE*2=sliderButtonL
+{slide=invert}
+else
+{ 
+  if invert
+  {slide=1-sliderButtonPos/(h_arg-ARROW_MEDIUM_SIZE*2-sliderButtonL)}
+  else
+  {slide=sliderButtonPos/(h_arg-ARROW_MEDIUM_SIZE*2-sliderButtonL)}
+}
+//CONVERSION

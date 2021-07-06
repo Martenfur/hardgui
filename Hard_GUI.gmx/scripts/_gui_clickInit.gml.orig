@@ -1,0 +1,26 @@
+///_gui_clickInit()
+/*
+Returns relative mouse coordinates and click events.
+*/
+
+gui_formGetGlobalCoords(myform)
+
+mouseFormX=mouse_x-xGlobal 
+mouseFormY=mouse_y-yGlobal
+
+mbCheck=            myform.mbCheck
+mbCheckPress=       myform.mbCheckPress
+mbCheckRelease=     myform.mbCheckRelease
+mbCheckRightRelease=myform.mbCheckRightRelease
+
+if !instance_exists(myform)
+{instance_destroy()}
+
+
+if instance_exists(mysliderH)
+{x=startx-mysliderH.contentL*mysliderH.slide}
+if instance_exists(mysliderV)
+{y=starty-mysliderV.contentL*mysliderV.slide}
+
+
+

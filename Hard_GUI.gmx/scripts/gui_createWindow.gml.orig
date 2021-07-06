@@ -1,0 +1,33 @@
+///gui_createWindow(x,y,w,h,form,hdr_str,hdr_align,hide_en,close_en)
+
+var new;
+
+new=instance_create(argument0,argument1,gui_form)
+new.w=     argument2
+new.h=     argument3
+new.surf=  surface_create(argument2,argument3)
+if argument4=noone
+{new.myform=       gui_cntrl}
+else
+{new.myform=       argument4}
+new.headerStr=     argument5
+new.headerStrAlign=argument6
+new.bHideEn=       argument7
+new.bCloseEn=      argument8
+new.isWindow=1
+
+with(gui_cntrl)
+{
+  ds_grid_resize(formListDraw,ds_grid_width(formListDraw)+1,2)
+   
+  var new_i;
+  new_i=ds_grid_width(formListDraw)-1 
+ 
+  formListDraw[#new_i,0]=new
+  formListDraw[#new_i,1]=gui_formGetRank(new)+0.5
+}
+
+_gui_formListSort()
+_gui_formListClickPrepare()
+
+return new
